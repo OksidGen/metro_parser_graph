@@ -1,0 +1,218 @@
+variables = { 
+    "isShouldFetchOnlyProducts": True,
+    "slug": "myaso",
+    "storeId": 10,
+    "sort": "default",
+    "size": 30,
+    "from": 0,
+    "filters": [],
+    "attributes": [],
+    "in_stock": True,
+    "eshop_order": True
+}
+
+query = """
+query Query($storeId: Int!, $slug: String!, $attributes:[AttributeFilter], $filters: [FieldFilter], $from: Int!, $size: Int!, $sort: InCategorySort, $in_stock: Boolean, $eshop_order: Boolean, $is_action: Boolean, $price_levels: Boolean) {
+    category (storeId: $storeId, slug: $slug, inStock: $in_stock, eshopAvailability: $eshop_order, isPromo: $is_action, priceLevels: $price_levels) {
+      id
+      name
+      slug
+      id
+      parent_id
+      meta {
+        description
+        h1
+        title
+        keywords
+      }
+      disclaimer
+      description {
+        top
+        main
+        bottom
+      }
+#      treeBranch {
+#        id
+#        name
+#        slug
+#        children {
+#          category_type
+#          id
+#          name
+#          slug
+#          children {
+#            category_type
+#            id
+#            name
+#            slug
+#            children {
+#              category_type
+#              id
+#              name
+#              slug
+#              children {
+#                category_type
+#                id
+#                name
+#                slug
+#              }
+#            }
+#          }
+#        }
+#      }
+      breadcrumbs {
+        category_type
+        id
+        name
+        parent_id
+        parent_slug
+        slug
+      }
+      promo_banners {
+        id
+        image
+        name
+        category_ids
+        virtual_ids
+        type
+        sort_order
+        url
+        is_target_blank
+        analytics {
+          name
+          category
+          brand
+          type
+          start_date
+          end_date
+        }
+      }
+
+
+      dynamic_categories(from: 0, size: 9999) {
+        slug
+        name
+        id
+      }
+      filters {
+        facets {
+          key
+          total
+          filter {
+            id
+            name
+            display_title
+            is_list
+            is_main
+            text_filter
+            is_range
+            category_id
+            category_name
+            values {
+              slug
+              text
+              total
+            }
+          }
+        }
+      }
+      total
+      prices {
+        max
+        min
+      }
+      pricesFiltered {
+        max
+        min
+      }
+      products(attributeFilters: $attributes, from: $from, size: $size, sort: $sort, fieldFilters: $filters)  {
+        health_warning
+        limited_sale_qty
+        id
+        slug
+        name
+        name_highlight
+        article
+        is_target
+        category_id
+        url
+        images
+        pick_up
+        icons {
+          id
+          badge_bg_colors
+          caption
+          image
+          type
+          is_only_for_sales
+          stores
+          caption_settings {
+            colors
+            text
+          }
+          stores
+          sort
+          image_png
+          image_svg
+          description
+          end_date
+          start_date
+          status
+        }
+        manufacturer {
+          id
+          image
+          name
+        }
+        packing {
+          size
+          type
+          pack_factors {
+            instamart
+          }
+        }
+        stocks {
+          value
+          text
+          eshop_availability
+          scale
+          prices_per_unit {
+            old_price
+            offline {
+              price
+              old_price
+              type
+              offline_discount
+              offline_promo
+            }
+            price
+            is_promo
+            levels {
+              count
+              price
+            }
+            discount
+          }
+          prices {
+            price
+            is_promo
+            old_price
+            offline {
+              old_price
+              price
+              type
+              offline_discount
+              offline_promo
+            }
+            levels {
+              count
+              price
+            }
+            discount
+          }
+        }
+      }
+    }
+  }
+
+"""
